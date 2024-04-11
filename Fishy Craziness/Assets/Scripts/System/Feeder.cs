@@ -23,6 +23,11 @@ public class Feeder : MonoBehaviour
 		if (GameManager.Instance.IsGameOver)
 			return;
 
+		DropFood();
+	}
+
+	private void DropFood()
+	{
 		_interval -= Time.deltaTime;
 
 		if (_interval <= 0f)

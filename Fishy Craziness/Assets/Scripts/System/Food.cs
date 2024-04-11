@@ -7,7 +7,7 @@ public class Food : MonoBehaviour
 
 	[Header("Food Settings"), Space]
 	[SerializeField] private float fallSpeed;
-	[SerializeField] private float energyRecoverAmount;
+	public float EnergyRecoverAmount { get; private set; }
 
 	private void Update()
 	{
@@ -16,12 +16,7 @@ public class Food : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collider)
 	{
-		if (collider.CompareTag("Player"))
-		{
-			collider.GetComponentInParent<PlayerFish>().RecoverEnergy(energyRecoverAmount);
-			Destroy(gameObject);
-		}
-		else if (collider.CompareTag("SeaFloor"))
+		if (collider.CompareTag("SeaFloor"))
 		{
 			Destroy(gameObject);
 		}
