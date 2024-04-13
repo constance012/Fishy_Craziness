@@ -6,12 +6,20 @@ public class Food : MonoBehaviour
 	[SerializeField] private Rigidbody2D rb2D;
 
 	[Header("Food Settings"), Space]
-	[SerializeField] private float fallSpeed;
-	public float EnergyRecoverAmount { get; private set; }
+	[SerializeField] private float maxFallSpeed;
+	public float energyRecoverAmount;
+
+	// Private fields.
+	private float _fallSpeed;
+
+	private void Start()
+	{
+		_fallSpeed = Random.Range(.5f, maxFallSpeed);
+	}
 
 	private void Update()
 	{
-		rb2D.velocity = fallSpeed * Vector2.down;
+		rb2D.velocity = _fallSpeed * Vector2.down;
 	}
 
 	private void OnTriggerEnter2D(Collider2D collider)

@@ -1,24 +1,19 @@
-using System.Runtime;
 using UnityEngine;
 
-public class PlayerFish : FishBase
+public sealed class PlayerFish : FishBase
 {
 	[Header("Damage Text"), Space]
 	[SerializeField] private GameObject damageTextPrefab;
 
-	// Private fields.
-	private Vector2 _damageTextPos;
-
     protected override void Start()
     {
         base.Start();
-		_damageTextPos = transform.position + Vector3.up;
     }
 
-    protected override void Update()
+    private void Update()
 	{
 		_swimDirection = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - rb2D.position;
-		float speed = Mathf.Lerp(1f, maxSwimSpeed, Energy / startEnergy);
+		float speed = Mathf.Lerp(2f, maxSwimSpeed, Energy / startEnergy);
 
 		if (_swimDirection.magnitude > .1f)
 		{
@@ -27,42 +22,44 @@ public class PlayerFish : FishBase
 		else
 			rb2D.velocity = Vector2.zero;
 
-		GameManager.Instance.UpdateEnergy(Energy);
+		GameManager.Instance.UpdatePlayerEnergy(Energy);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collider)
 	{
 		if (collider.CompareTag("Food"))
 		{
-			RecoverEnergy(collider.GetComponent<Food>().EnergyRecoverAmount);
+			UpdateEnergy(collider.GetComponent<Food>().energyRecoverAmount);
 			Destroy(collider.gameObject);
 		}
 		else if (collider.CompareTag("OtherFish"))
 		{
-			FishBase other = collider.GetComponentInParent<FishBase>();
-			Debug.Log(other == null);
+			NormalFish other = collider.GetComponentInParent<NormalFish>();
 			
 			if (other.Energy <= this.Energy)
 			{
-				float amount = other.Energy % 2f == 0 ? 2f : 1f;
-				RecoverEnergy(amount);
+				float amount = (int)other.Energy % 2 == 0 ? 2f : 1f;
+				UpdateEnergy(amount);
 			}
 			else
 			{
-				this.Energy = Mathf.Max(this.Energy - 2f, 0f);
-				DamageText.Generate(damageTextPrefab, _damageTextPos, DamageText.DamageColor, DamageTextStyle.Normal, -2f);
+				UpdateEnergy(-2f);
 			}
 
-			Destroy(collider.gameObject);
+			other.Kill();
 		}
 	}
 
-	public void RecoverEnergy(float amount)
+	public void UpdateEnergy(float delta)
 	{
-		Energy += amount;
+		Energy = Mathf.Clamp(Energy + delta, 1f, 49f);
 
-		DamageText.Generate(damageTextPrefab, _damageTextPos, DamageText.HealingColor, DamageTextStyle.Normal, $"+{amount}");
+		string content = delta < 0 ? $"{delta}" : $"+{delta}";
+		Vector2 damageTextPos = transform.position + Vector3.up;
+		Color color = delta < 0 ? DamageText.DamageColor : DamageText.HealingColor;
 
-		GameManager.Instance.UpdateEnergy(Energy);
+		DamageText.Generate(damageTextPrefab, damageTextPos, color, DamageTextStyle.Normal, content);
+
+		GameManager.Instance.UpdatePlayerEnergy(Energy);
 	}
 }

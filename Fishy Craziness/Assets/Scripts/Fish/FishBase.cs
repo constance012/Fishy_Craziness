@@ -1,20 +1,17 @@
 using UnityEngine;
-using TMPro;
 
-public class FishBase : MonoBehaviour
+public abstract class FishBase : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] protected Rigidbody2D rb2D;
-	[SerializeField] protected Transform graphic;
-	[SerializeField] private TextMeshProUGUI energyIndicator;
 
-	[Header("Movement"), Space]
-	[SerializeField] protected float maxSwimSpeed;
-	[SerializeField] protected float maxTiltAngle;
+	[Header("Mobility"), Space]
+	[SerializeField, Min(0f)] protected float maxSwimSpeed;
+	[SerializeField, Min(20f)] protected float maxTiltAngle;
 
 	[Header("Energy"), Space]
-	[SerializeField] protected float startEnergy = 10f;
-	[SerializeField] protected float energyLossRate;
+	[SerializeField, Min(1f)] protected float startEnergy = 10f;
+	[SerializeField, Min(0f)] protected float energyLossRate;
 
 	// Properties.
 	public float Energy { get; protected set; }
@@ -23,31 +20,11 @@ public class FishBase : MonoBehaviour
 	protected Vector2 _swimDirection;
 	
 	// Private fields.
-	private float _fixedSwimSpeed;
 	private bool _facingRight = true;
 
 	protected virtual void Start()
 	{
 		Energy = startEnergy;
-
-		if (energyIndicator != null)
-		{
-			energyIndicator.text = Energy.ToString("0");
-			_swimDirection = new Vector2(-transform.position.x, 0f);
-			_fixedSwimSpeed = Random.Range(2, maxSwimSpeed);
-		}
-	}
-
-	protected virtual void Update()
-	{
-		Swim(_swimDirection, _fixedSwimSpeed);
-		energyIndicator.text = Energy.ToString("0");
-
-		if (Energy <= 0f)
-		{
-			Destroy(energyIndicator.gameObject);
-			Destroy(gameObject);
-		}
 	}
 
 	protected void Swim(Vector2 direction, float speed)
@@ -64,7 +41,7 @@ public class FishBase : MonoBehaviour
 
 		if (mustFlip)
 		{
-			graphic.FlipByScale('x');
+			transform.Rotate(new Vector3(0f, 180f, 0f));
 			_facingRight = !_facingRight;
 		}
 	}

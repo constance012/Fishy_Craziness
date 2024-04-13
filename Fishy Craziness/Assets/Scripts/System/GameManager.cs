@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager>
 		timeText.text = $"Time: {Time.timeSinceLevelLoad:0}";
 	}
 
-	public void UpdateEnergy(float energy)
+	public void UpdatePlayerEnergy(float energy)
 	{
 		energyText.text = $"Energy: {energy:0}";
 

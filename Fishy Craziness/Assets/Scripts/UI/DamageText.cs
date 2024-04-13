@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEditor;
 
 public enum DamageTextStyle { Small, Normal, Critical }
 
