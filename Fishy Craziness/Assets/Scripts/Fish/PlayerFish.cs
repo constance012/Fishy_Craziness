@@ -12,6 +12,13 @@ public sealed class PlayerFish : FishBase
 
     private void Update()
 	{
+		if (GameManager.Instance.IsGameOver)
+		{
+			rb2D.velocity = Vector2.zero;
+			gameObject.SetActive(false);
+			return;
+		}
+
 		_swimDirection = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - rb2D.position;
 		float speed = Mathf.Lerp(2f, maxSwimSpeed, Energy / startEnergy);
 
@@ -52,7 +59,7 @@ public sealed class PlayerFish : FishBase
 
 	public void UpdateEnergy(float delta)
 	{
-		Energy = Mathf.Clamp(Energy + delta, 1f, 49f);
+		Energy = Mathf.Clamp(Energy + delta, 0f, 49f);
 
 		string content = delta < 0 ? $"{delta}" : $"+{delta}";
 		Vector2 damageTextPos = transform.position + Vector3.up;

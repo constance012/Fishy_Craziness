@@ -78,7 +78,7 @@ MonoBehaviour:
   maxSwimSpeed: 10
   maxTiltAngle: 45
   startEnergy: 10
-  energyLossRate: 1
+  energyLossRate: 0
   energyIndicator: {fileID: 0}
   animator: {fileID: 3878280433528224033}
   deadTimer: 7

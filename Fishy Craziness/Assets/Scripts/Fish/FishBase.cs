@@ -7,7 +7,6 @@ public abstract class FishBase : MonoBehaviour
 
 	[Header("Mobility"), Space]
 	[SerializeField, Min(0f)] protected float maxSwimSpeed;
-	[SerializeField, Min(20f)] protected float maxTiltAngle;
 
 	[Header("Energy"), Space]
 	[SerializeField, Min(1f)] protected float startEnergy = 10f;

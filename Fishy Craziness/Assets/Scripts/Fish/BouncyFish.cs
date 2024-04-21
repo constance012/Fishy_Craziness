@@ -2,9 +2,6 @@ using UnityEngine;
 
 public sealed class BouncyFish : NormalFish
 {
-	// Private fields.
-	private bool _firstCollision;
-
 	protected override void Start()
 	{
 		animator.Play($"Bouncy Fish Variant {Random.Range(1, 5)}");

@@ -10,9 +10,6 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField] private GameObject gameOverPanel;
 	[SerializeField] private TextMeshProUGUI totalTimeText;
 
-	[Header("Game Object References"), Space]
-	[SerializeField] private PlayerFish player;
-
 	[Header("Other Settings"), Space]
 	[SerializeField] private float gameOverDelay = 3f;
 	
@@ -55,7 +52,6 @@ public class GameManager : Singleton<GameManager>
 		
 		gameOverPanel.SetActive(true);
 		totalTimeText.text = $"Total Time: <color=\"red\">{Time.timeSinceLevelLoad:0} secs";
-		player.enabled = false;
 
 		IsGameOver = true;
 	}

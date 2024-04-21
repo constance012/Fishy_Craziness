@@ -6,10 +6,12 @@ public class FishSpawner : MonoBehaviour
 	[SerializeField] private GameObject normalFish;
 	[SerializeField] private GameObject bouncyFish;
 
-	[Header("Spawning Settings"), Space]
+	[Header("Normal Fish Spawning Settings"), Space]
 	[SerializeField] private float spawnInterval;
-	[SerializeField] private Vector2 bouncyFishSpawnInterval;
 	[SerializeField] private float fishPerSpawn;
+
+	[Header("Bouncy Fish Spawning Settings"), Space]
+	[SerializeField] private Vector2 bouncyFishSpawnInterval;
 	[SerializeField, Tooltip("The offscreen offset to spawn fish, x is for horizontal, y and z is for vertical")]
 	private Vector3 offScreenOffset;
 

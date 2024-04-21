@@ -5,23 +5,17 @@ public class EnergyIndicator : MonoBehaviour
     [Header("References"), Space]
     [SerializeField] private Transform worldPos;
 
-    private static Canvas worldCanvas;
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    private static void ClearStatic()
-    {
-        worldCanvas = null;
-    }
+    private static Canvas _worldCanvas;
 
     private void Awake()
     {
-        if (worldCanvas == null)
+        if (_worldCanvas == null)
 		{
-			worldCanvas = GameObject.FindWithTag("WorldCanvas").GetComponent<Canvas>();
-			worldCanvas.worldCamera = Camera.main;
+			_worldCanvas = GameObject.FindWithTag("WorldCanvas").GetComponent<Canvas>();
+			_worldCanvas.worldCamera = Camera.main;
 		}
 		
-		transform.SetParent(worldCanvas.transform);
+		transform.SetParent(_worldCanvas.transform);
     }
 
     private void LateUpdate()

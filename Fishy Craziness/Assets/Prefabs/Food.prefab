@@ -163,4 +163,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2D: {fileID: 2077262383427549104}
   maxFallSpeed: 3
-  energyRecoverAmount: 2
+  energyRecoverAmount: 1
